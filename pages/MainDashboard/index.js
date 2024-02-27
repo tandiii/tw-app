@@ -2,11 +2,15 @@ import { Text, View,StyleSheet } from "react-native"
 import Button from "../../components/Button"
 import CardMenu from "../../components/CardMenu"
 import Gap from "../../components/Gap"
+import SyncStorage from 'sync-storage';
+
 
 const MainDashboard = ({navigation})=>{
+    const user = SyncStorage.get("user");
+
     return (
         <View style={Styles.main__wrapper}>
-            <Text style={Styles.welcome__text}>Selamat Datang, Teuku</Text>
+            <Text style={Styles.welcome__text}>Welcome, {user?.data?.nama}</Text>
             <Gap height={60}/>
 
             <View style={Styles.inner__wrapper}>

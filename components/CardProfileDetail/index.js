@@ -1,6 +1,9 @@
+import { AsyncStorage } from "react-native";
 import { StyleSheet, Text, View } from "react-native"
 
 export default CardProfileDetail =({label,data})=>{
+  
+             
     return (
         <View style={Styles.main}>
             <Text>{label}:</Text>

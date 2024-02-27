@@ -5,42 +5,64 @@ import { useState } from 'react';
 import TextInputCompt from '../../components/TextInputCompt';
 import Gap from '../../components/Gap';
 import Button from '../../components/Button';
+import { ALERT_TYPE, AlertNotificationRoot, Dialog } from 'react-native-alert-notification';
+import axios from 'axios';
 
 
 const Register = ({navigation}) => {
     const [pass, setPass] = useState("")
     const [email, setEmail] = useState("")
+    const [nama,setNama] = useState("")
+    const [loading,setLoading]=useState(false)
+
+    const handleRegister = async ()=>{
+        setLoading(true);
+        const res = await axios.post("http://192.168.1.43:5001/user",{
+            nama: nama,
+            email:email,
+            password: pass,
+        });
+        if(res?.status === 201){
+            setLoading(false);
+            navigation.navigate("Login")
+        }
+    }
+
+
     return (
-        <View style={styles.container}>
-            <View style={styles.header__wrapper}>
-                <Image source={ImLogin} width={100} height={100} style={styles.img} />
-                <Text style={styles.header__text}>
-                    Text To Speech
-                </Text>
-            </View>
-            <Gap height={20} />
+    //    <AlertNotificationRoot>
+        
+    //     </AlertNotificationRoot>
+    <View style={styles.container}>
+    <View style={styles.header__wrapper}>
+        <Image source={ImLogin} width={100} height={100} style={styles.img} />
+        <Text style={styles.header__text}>
+            Text To Speech
+        </Text>
+    </View>
+    <Gap height={20} />
 
-            <View>
-                <TextInputCompt placeholder={"Masukkan Email"} secureTextEntry={false} onChangeText={text => setEmail(text)} />
-                <Gap height={20} />
-                <TextInputCompt placeholder={"Masukkan Password"} secureTextEntry={true} onChangeText={(e) => {
-                    setPass(e)
-                }} />
-                <Gap height={20} />
-                <TextInputCompt placeholder={"Ulangi Password"} secureTextEntry={true} onChangeText={(e) => {
-                    setPass(e)
-                }} />
-                <Text onPress={()=>{
-                    navigation.navigate("Login")
-                }} style={styles.text__register}>Login</Text>
-                <Gap height={30} />
+    <View>
+        <TextInputCompt placeholder={"Masukkan Nama"} secureTextEntry={false} onChangeText={y => setNama(y)} />
+        <Gap height={20} />
+        <TextInputCompt placeholder={"Masukkan Email"} secureTextEntry={false} onChangeText={text => setEmail(text)} />
+        <Gap height={20} />
+        <TextInputCompt placeholder={"Masukkan Password"} secureTextEntry={true} onChangeText={(e) => {
+            setPass(e)
+        }} />
+        <Gap height={20} />
+        <TextInputCompt placeholder={"Ulangi Password"} secureTextEntry={true} />
+        <Text onPress={()=>{
+          navigation.navigate("Login")
+        }} style={styles.text__register}>Login</Text>
+        <Gap height={30} />
 
-                <Button label={"Register"} onPress={()=>{
-                    navigation.navigate("Login")
-                }}/>
-            </View>
-            <StatusBar style="auto" />
-        </View>
+        <Button label={loading ? "Loading..." : "Register"} onPress={()=>{
+             handleRegister();
+        }}/>
+    </View>
+    <StatusBar style="auto" />
+</View>
     )
 }
 

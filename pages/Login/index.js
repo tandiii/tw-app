@@ -1,42 +1,78 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert } from 'react-native';
 import ImLogin from "../../assets/imLogin.png";
 import { useState } from 'react';
 import TextInputCompt from '../../components/TextInputCompt';
 import Gap from '../../components/Gap';
 import Button from '../../components/Button';
+import axios from 'axios';
+import { ALERT_TYPE, AlertNotificationRoot, Dialog } from 'react-native-alert-notification';
+import SyncStorage from 'sync-storage';
 
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
     const [pass, setPass] = useState("")
     const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState(false);
+
+    const handleLogin = async () => {
+        setLoading(true);
+      
+        try {
+            const res = await axios.post("http://192.168.1.43:5001/user/login", {
+                email: email,
+                password: pass
+            });
+            console.log("TESTT:::", res)
+            setEmail("")
+            setPass("")
+            SyncStorage.set("user", res?.data);
+            setLoading(false);
+            
+            navigation.navigate("MainDashboard");
+
+
+        } catch (error) {
+            setLoading(false);
+            Dialog.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Gagal Login!',
+                textBody: error?.message || "Gagal Login!",
+                button: 'close',
+            })
+        }
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.header__wrapper}>
-                <Image source={ImLogin} width={100} height={100} style={styles.img} />
-                <Text style={styles.header__text}>
-                    Text To Speech
-                </Text>
-            </View>
-            <Gap height={20} />
-
-            <View>
-                <TextInputCompt placeholder={"Masukkan Email"} secureTextEntry={false} onChangeText={text => setEmail(text)} />
+        <AlertNotificationRoot>
+            <View style={styles.container}>
+                <View style={styles.header__wrapper}>
+                    <Image source={ImLogin} width={100} height={100} style={styles.img} />
+                    <Text style={styles.header__text}>
+                        Text To Speech
+                    </Text>
+                </View>
                 <Gap height={20} />
-                <TextInputCompt placeholder={"Masukkan Password"} secureTextEntry={true} onChangeText={(e) => {
-                    setPass(e)
-                }} />
-                <Text onPress={()=>{
-                    navigation.navigate("Register")
-                }} style={styles.text__register}>Register</Text>
-                <Gap height={30} />
 
-                <Button label={"Login"} onPress={()=>{
-                    navigation.navigate("MainDashboard")
-                }}/>
+                <View >
+                    <TextInputCompt placeholder={"Masukkan Email"} secureTextEntry={false} onChangeText={text => setEmail(text)} />
+                    <Gap height={20} />
+                    <TextInputCompt  passIcon placeholder={"Masukkan Password"} secureTextEntry={true} onChangeText={(e) => {
+                        setPass(e)
+                    }} />
+                    <Text onPress={() => {
+                        navigation.navigate("Register")
+                    }} style={styles.text__register}>Register</Text>
+                    <Gap height={30} />
+
+                    <Button label={loading ? "Loading..." : "Login"} onPress={() => {
+                        handleLogin();
+                    }} />
+                </View>
+                <StatusBar style="auto" />
             </View>
-            <StatusBar style="auto" />
-        </View>
+        </AlertNotificationRoot>
+
     )
 }
 
@@ -65,11 +101,11 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100
     },
-    text__register:{
-        fontSize:12,
+    text__register: {
+        fontSize: 12,
         color: "blue",
-        textDecorationLine:"underline",
-        textAlign:"right",
-        marginTop:12
+        textDecorationLine: "underline",
+        textAlign: "right",
+        marginTop: 12
     }
 });

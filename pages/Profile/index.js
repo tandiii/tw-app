@@ -3,20 +3,22 @@ import NavTop from "../../components/NavTop"
 import CardProfileDetail from "../../components/CardProfileDetail";
 import Gap from "../../components/Gap";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SyncStorage from 'sync-storage';
 
 
 export default Profile = ({ navigation }) => {
+    const user = SyncStorage.get("user");
+    console.log(user)
     return (
         <>
             <NavTop label={"Profile"} onPress={() => {
                 navigation.navigate("MainDashboard");
             }} />
             <View style={Styles.main__wrapper}>
-                <CardProfileDetail label={"Nama"} data={"Tandi"} />
+                <CardProfileDetail label={"Nama"} data={user?.data?.nama} />
                 <Gap height={10} />
-                <CardProfileDetail label={"Email"} data={"Tandi@gmail.com"} />
+                <CardProfileDetail label={"Email"} data={user?.data?.email} />
                 <Gap height={10} />
-                <CardProfileDetail label={"Hp"} data={"0856377287"} />
                 <TouchableOpacity onPress={()=>{
                     navigation.navigate("Login")
                 }} style={Styles.wrapper__btn__logout}>

@@ -12,7 +12,8 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer >
+   
+<NavigationContainer >
       <Stack.Navigator initialRouteName='Login' screenOptions={{
         headerShown: false
       }}>
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="UnggahGambar" component={UnggahGambar} />
       </Stack.Navigator>
     </NavigationContainer>
+    
   );
 }
 
