@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const TextInputCompt = ({placeholder,secureTextEntry,onChangeText,height,textAlignVertical,multiline,passIcon}) =>{
   const [show,setShow] = useState(true);
+  
     return (
        <View  style={styles.input(height,textAlignVertical)}>
          <TextInput

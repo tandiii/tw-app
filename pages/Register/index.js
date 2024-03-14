@@ -17,7 +17,7 @@ const Register = ({navigation}) => {
 
     const handleRegister = async ()=>{
         setLoading(true);
-        const res = await axios.post("http://192.168.1.43:5001/user",{
+        const res = await axios.post("http://192.168.1.57:5001/user",{
             nama: nama,
             email:email,
             password: pass,

@@ -19,7 +19,7 @@ const Login = ({ navigation }) => {
         setLoading(true);
       
         try {
-            const res = await axios.post("http://192.168.1.43:5001/user/login", {
+            const res = await axios.post("http://10.5.20.181:5001/user/login", {
                 email: email,
                 password: pass
             });
