@@ -1,13 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import React, { useEffect } from "react";
 import NavTop from "../../components/NavTop"
-import CardProfileDetail from "../../components/CardProfileDetail";
 import Gap from "../../components/Gap";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from "react";
 import TextInputCompt from "../../components/TextInputCompt";
 import { SelectList } from "react-native-dropdown-select-list";
-import ICAUDIO from "../../assets/IC-Audio.png"
+import ICAUDIO from "../../assets/IC-Audio.png";
 import { ALERT_TYPE, AlertNotificationRoot, Dialog } from "react-native-alert-notification";
 import axios from "axios";
 import { Audio } from "expo-av";
@@ -69,9 +67,6 @@ export default InputText = ({ navigation }) => {
       setLoading(false);
     }
   };
-  
-  
-  
 
   async function playSound() {
     try {

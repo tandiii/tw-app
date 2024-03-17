@@ -24,7 +24,7 @@ export default function UnggahGambar({ navigation }) {
     const handleUpload = async () => {
         setLoading(true);
         try {
-            const res = await axios.post("http://192.168.137.1:5001/blog", dataGambar,{
+            const res = await axios.post(`http://${process.env.GLOBAL_IP}:5001/blog`, dataGambar,{
                 headers:{
                     'Content-Type':'multipart/form-data'
                 }

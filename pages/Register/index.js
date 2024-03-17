@@ -5,9 +5,7 @@ import { useState } from 'react';
 import TextInputCompt from '../../components/TextInputCompt';
 import Gap from '../../components/Gap';
 import Button from '../../components/Button';
-import { ALERT_TYPE, AlertNotificationRoot, Dialog } from 'react-native-alert-notification';
 import axios from 'axios';
-
 
 const Register = ({navigation}) => {
     const [pass, setPass] = useState("")
@@ -17,7 +15,7 @@ const Register = ({navigation}) => {
 
     const handleRegister = async ()=>{
         setLoading(true);
-        const res = await axios.post("http://192.168.1.57:5001/user",{
+        const res = await axios.post(`http://${process.env.GLOBAL_IP}:5001/user`,{
             nama: nama,
             email:email,
             password: pass,
